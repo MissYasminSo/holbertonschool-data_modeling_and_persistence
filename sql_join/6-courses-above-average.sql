@@ -3,7 +3,7 @@ FROM
 (
     SELECT courses.title AS course_title, COUNT(enrollments.student_id) AS student_count
     FROM courses
-    LEFT JOIN enrollments
+    INNER JOIN enrollments
         ON enrollments.course_id = courses.id
     GROUP BY courses.id, courses.title
 ) AS course_count
@@ -13,7 +13,7 @@ WHERE student_count > (
     (
         SELECT COUNT(enrollments.student_id) AS student_count
         FROM courses
-        LEFT JOIN enrollments
+        INNER JOIN enrollments
         ON enrollments.course_id = courses.id
         GROUP BY courses.id
     ) AS avg_course_count
