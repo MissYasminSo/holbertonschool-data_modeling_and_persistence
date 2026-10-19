@@ -1,7 +1,7 @@
 SELECT course_title
 FROM
 (
-    SELECT courses.title AS course_title, COUNT(student_id) AS student_count
+    SELECT courses.title AS course_title, COUNT(DISTINCT student_id) AS student_count
     FROM courses
     LEFT JOIN enrollments
     ON enrollments.course_id = courses.id
@@ -11,7 +11,7 @@ WHERE student_count > (
     SELECT AVG(student_count)
     FROM
     (
-        SELECT courses.id, COUNT(student_id) AS student_count
+        SELECT courses.id, COUNT(DISTINCT student_id) AS student_count
         FROM courses
         LEFT JOIN enrollments
         ON enrollments.course_id = courses.id
