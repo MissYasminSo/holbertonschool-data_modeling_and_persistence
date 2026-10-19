@@ -1,21 +1,21 @@
 SELECT course_title
 FROM
 (
-    SELECT title AS course_title, COUNT(student_id) AS student_count
+    SELECT courses.title AS course_title, COUNT(student_id) AS student_count
     FROM courses
     LEFT JOIN enrollments
     ON enrollments.course_id = courses.id
-    GROUP BY course_title
-)
+    GROUP BY courses.title
+) AS course_count
 WHERE student_count > (
-    SELECT AVG(student_count) AS student_count_avg
+    SELECT AVG(student_count)
     FROM
     (
-        SELECT title AS course_title, COUNT(student_id) AS student_count
+        SELECT courses.id, COUNT(student_id) AS student_count
         FROM courses
         LEFT JOIN enrollments
         ON enrollments.course_id = courses.id
-        GROUP BY course_title
-    )
+        GROUP BY courses.id
+    ) AS avg_course_count
 )
 ORDER BY course_title;
